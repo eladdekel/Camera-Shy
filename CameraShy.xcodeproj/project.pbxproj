@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7549C28125E21BAF00A9168E /* CallingHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549C28025E21BAF00A9168E /* CallingHandlers.swift */; };
 		7549C28525E24F0700A9168E /* GForce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549C28425E24F0700A9168E /* GForce.swift */; };
+		7549C29325E26BEC00A9168E /* NotifyMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549C29225E26BEC00A9168E /* NotifyMe.swift */; };
 		755C0D9B25E18D9900C9D6BF /* MainContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755C0D9625E18D9900C9D6BF /* MainContainerView.swift */; };
 		755C0D9C25E18D9900C9D6BF /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755C0D9725E18D9900C9D6BF /* Welcome.swift */; };
 		755C0D9D25E18D9900C9D6BF /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755C0D9825E18D9900C9D6BF /* Profile.swift */; };
@@ -72,6 +73,7 @@
 		31C6AF0773C2B804BAFB9D5B /* Pods-CameraShy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CameraShy.release.xcconfig"; path = "Target Support Files/Pods-CameraShy/Pods-CameraShy.release.xcconfig"; sourceTree = "<group>"; };
 		7549C28025E21BAF00A9168E /* CallingHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingHandlers.swift; sourceTree = "<group>"; };
 		7549C28425E24F0700A9168E /* GForce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GForce.swift; sourceTree = "<group>"; };
+		7549C29225E26BEC00A9168E /* NotifyMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyMe.swift; sourceTree = "<group>"; };
 		755C0D8F25E183C900C9D6BF /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		755C0D9625E18D9900C9D6BF /* MainContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerView.swift; sourceTree = "<group>"; };
 		755C0D9725E18D9900C9D6BF /* Welcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				755C0DE525E1D2ED00C9D6BF /* WaitRoomAdapter.swift */,
 				7549C28025E21BAF00A9168E /* CallingHandlers.swift */,
 				7549C28425E24F0700A9168E /* GForce.swift */,
+				7549C29225E26BEC00A9168E /* NotifyMe.swift */,
 			);
 			path = Mains;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				755C0DAF25E1A26F00C9D6BF /* SingletonFiles.swift in Sources */,
 				755C0D9F25E18D9900C9D6BF /* SignUp.swift in Sources */,
 				755C0DE625E1D2ED00C9D6BF /* WaitRoomAdapter.swift in Sources */,
+				7549C29325E26BEC00A9168E /* NotifyMe.swift in Sources */,
 				7549C28125E21BAF00A9168E /* CallingHandlers.swift in Sources */,
 				755C0DDE25E1D0BA00C9D6BF /* Waitroom.swift in Sources */,
 				755C0DA725E18E8700C9D6BF /* UsualAdapter.swift in Sources */,

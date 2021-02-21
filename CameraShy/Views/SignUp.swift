@@ -21,13 +21,10 @@ struct SignUp: View {
             Text("Sign Up/Log In")
                 .font(.system(size: 36, weight: .bold, design: .rounded))
                 .lineLimit(2)
-                .padding(.top, 50)
+                .offset(y: -70)
                 .padding(.horizontal, 50)
                 .foregroundColor(.white)
-                .padding(.bottom, 20)
-            //                AppleSignInButton()
-            //                    .fixedSize(horizontal: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-            //                    .scaleEffect(1.5)
+                .padding(.bottom, 50)
             
             Image("signup")
                 .resizable()
@@ -36,6 +33,12 @@ struct SignUp: View {
             NavigationLink(destination: Profile(), isActive: $continueNext) {
                 EmptyView()
             }
+
+            Text("By signing up, you agree to adhere by our Terms of Service and acknowledge that you have read the Privacy Policy. ")
+                .foregroundColor(.white)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 15)
+
             SignInWithAppleButton(.signIn) { request in
                 request.requestedScopes = [.fullName, .email]
             } onCompletion: { result in
@@ -69,18 +72,6 @@ struct SignUp: View {
             .signInWithAppleButtonStyle(.black)
             .fixedSize(horizontal: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
             .scaleEffect(1.5)
-            //}
-            
-            //            // white button
-            //            .signInWithAppleButtonStyle(.white)
-            //            // white with border
-            //            .signInWithAppleButtonStyle(.whiteOutline)
-            
-            Text("By signing up, you agree to adhere by our Terms of Service and acknowledge that you have read the Privacy Policy. ")
-                .foregroundColor(.white)
-                .padding(.horizontal, 10)
-                .padding(.top, 15)
-            Spacer()
         }
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background(Color("MediumBlue").edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/))

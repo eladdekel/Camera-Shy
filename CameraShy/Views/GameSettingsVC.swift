@@ -10,7 +10,7 @@ import MapKit
 import Alamofire
 
 class GameSettingsVC: UIViewController, PassingDataBack {
-
+    
     
     @IBOutlet weak var miniBack: UIView!
     @IBOutlet var mainView: UIView!
@@ -38,13 +38,13 @@ class GameSettingsVC: UIViewController, PassingDataBack {
     override func viewDidLoad() {
         super.viewDidLoad()
         UISetup()
-
+        
         
     }
     
     func UISetup() {
         self.navigationController?.isNavigationBarHidden = true
-
+        
         
         miniBack.layer.cornerRadius = 20
         mapView.layer.cornerRadius = 20
@@ -84,15 +84,15 @@ class GameSettingsVC: UIViewController, PassingDataBack {
             timeLimitLabel.text = "\(Int(timeStepper.value)) minutes"
             
         } else if timeStepper.value == 1 {
-        
-        timeLimitLabel.text = "\(Int(timeStepper.value)) minute"
+            
+            timeLimitLabel.text = "\(Int(timeStepper.value)) minute"
         }
         
     }
     
     @IBAction func playerStepperAction(_ sender: Any) {
         playerLimitLabel.text = "\(Int(playerStepper.value)) players"
-
+        
     }
     
     @objc func mapTappedFunc(gesture: UITapGestureRecognizer) {
@@ -110,7 +110,7 @@ class GameSettingsVC: UIViewController, PassingDataBack {
         
         let test = Again(cords: cords, zoom: zoom, range: range)
         geoGo = test
-   
+        
     }
     
     
@@ -121,24 +121,28 @@ class GameSettingsVC: UIViewController, PassingDataBack {
             if let appleID = UserDefaults().string(forKey: "AppleInfoUser") {
                 let bounds = [Float(geoGo!.zoom.latitudeDelta), Float(geoGo!.zoom.longitudeDelta)]
                 
-                let fence = GeoFence(lat: Float(geoGo!.cords.latitude), long: Float(geoGo!.cords.longitude), rad: Float(geoGo!.range), bound: bounds)
-
-                let newParm = GameCreator(appleId: appleID, numPlayers: Float(playerStepper.value), time: Float(timeStepper.value), gfence: fence)
+                
+                
+                let newParm = GameCreator(appleId: appleID, numPlayers: Float(playerStepper.value), time: Float(timeStepper.value), lat: Float(geoGo!.cords.latitude), long: Float(geoGo!.cords.longitude), rad: Float(geoGo!.range), bound: bounds)
+                
+                let newData = GameData(game: TrueGame(bound: [Double(bounds[0]), Double(bounds[1])], id: "", lat: Double(geoGo!.cords.latitude), long: Double(geoGo!.cords.longitude), rad: Double(geoGo!.range), memberLimit: Double(playerStepper.value), timeLimit: Double(timeStepper.value), players: []), numPlayers: Double(5))
+                
+                Singleton.shared.gameData = newData
                 
                 dismiss(animated: true, completion: {
                     self.call.createGame(newParm)
-
+                    
                 })
                 
                 
-               
-            } else {
-
-            print("error")
-
-            }
-        
                 
+            } else {
+                
+                print("error")
+                
+            }
+            
+            
             
             
             
@@ -157,8 +161,8 @@ class GameSettingsVC: UIViewController, PassingDataBack {
             let destVC = segue.destination as! GameLocPickVC
             destVC.delegate = self
         }
-      
+        
         
     }
-
+    
 }

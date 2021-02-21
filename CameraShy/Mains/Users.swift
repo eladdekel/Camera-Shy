@@ -60,7 +60,10 @@ struct GameCreator: Decodable {
     let appleId: String
     let numPlayers: Float
     let time: Float
-    let gfence: GeoFence
+    let lat: Float
+    let long: Float
+    let rad: Float
+    let bound: [Float]
     
     
     
@@ -104,6 +107,7 @@ struct TrueGame: Decodable {
     let id: String
     let lat: Double
     let long: Double
+    let rad: Double
     let memberLimit: Double
     let timeLimit: Double
     let players: [Players]
@@ -116,6 +120,14 @@ struct Players: Decodable {
     let imageUrl: String
     let personId: String
     let osId: String
+    
+    
+}
+
+
+struct KillRep: Decodable {
+    let message: String
+    let status: Int
     
     
 }

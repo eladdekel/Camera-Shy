@@ -1,7 +1,10 @@
 PODS:
   - Alamofire (5.4.0)
   - OneSignal (3.1.0)
+  - Socket.IO-Client-Swift (15.2.0):
+    - Starscream (~> 3.1)
   - SPAlert (3.0.3)
+  - Starscream (3.1.1)
   - STPopup (1.8.7)
   - SwiftLocation/BeaconBroadcaster (5.1.0):
     - SwiftLocation/Core
@@ -11,7 +14,9 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 5.2)
   - OneSignal (< 4.0, >= 3.0.0)
+  - Socket.IO-Client-Swift (~> 15.2.0)
   - SPAlert
+  - Starscream
   - STPopup
   - SwiftLocation/BeaconBroadcaster
   - SwiftLocation/Core
@@ -21,7 +26,9 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - OneSignal
+    - Socket.IO-Client-Swift
     - SPAlert
+    - Starscream
     - STPopup
     - SwiftLocation
     - SwiftyJSON
@@ -29,11 +36,13 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
   OneSignal: a5853b3c7f7bce791353a15db019b5ccd5b8585b
+  Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
   SPAlert: f01599d5224e93547cbb9364b2c42e88074644b9
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   STPopup: a9045557bc48a0df51fbb7bf0544447c5fe84d34
   SwiftLocation: 83e0ea75a1969cee3a1197e2b7095603fc23fde5
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 64ff994bdd2badc48b509125fb8c1d6e1e283ad3
+PODFILE CHECKSUM: ea5e61a3f6e24b4167e7883d21ea86152523cda7
 
 COCOAPODS: 1.10.0

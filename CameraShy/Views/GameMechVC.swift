@@ -46,11 +46,16 @@ class GameMechVC: UIViewController, MKMapViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(loadKills), name: NSNotification.Name(rawValue: "headShot"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(plotUsers), name: NSNotification.Name(rawValue: "userUpdates"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(gameInfoFunc), name: NSNotification.Name(rawValue: "gameInfo"), object: nil)
-
-
-
-        // RUN SET LOCATION WITH THE DATA
-        // START PLOTTING USERS
+        
+        
+        if Singleton.shared.gameData != nil {
+            
+            let data = Singleton.shared.gameData
+            gameBegan(location: CLLocationCoordinate2D(latitude: data!.game.lat, longitude: data!.game.long), boundaries: MKCoordinateSpan(latitudeDelta: data!.game.bound[0], longitudeDelta: data!.game.bound[1]), radius: data!.game.rad, time: data!.game.timeLimit, playerCount: Double(data!.game.players.count))
+            
+            // RUN SET LOCATION WITH THE DATA
+            // START PLOTTING USERS
+        }
     }
     
     // MARK: - Updates UI
@@ -79,7 +84,7 @@ class GameMechVC: UIViewController, MKMapViewDelegate {
         
         
         backView.alpha = 0
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,29 +110,29 @@ class GameMechVC: UIViewController, MKMapViewDelegate {
             }
         }
         
-      
+        
     }
     
     // MARK: - Plots Users
     
     @objc func plotUsers(notification: NSNotification) {
         if let filebrought = notification.userInfo?["userUpdates"] as? [LatLong] {
-        
-        
-        for user in filebrought {
             
-            for x in mapView.annotations {
+            
+            for user in filebrought {
+                
+                for x in mapView.annotations {
                     mapView.removeAnnotation(x)
+                }
+                
+                let playerPoint = MKPointAnnotation()
+                playerPoint.coordinate = CLLocationCoordinate2D(latitude: user.lat, longitude: user.long)
+                mapView.addAnnotation(playerPoint)
             }
             
-            let playerPoint = MKPointAnnotation()
-            playerPoint.coordinate = CLLocationCoordinate2D(latitude: user.lat, longitude: user.long)
-            mapView.addAnnotation(playerPoint)
-        }
-        
-        
-        playerNumber.text = "\(filebrought.count)"
-        
+            
+            playerNumber.text = "\(filebrought.count)"
+            
         } else {
             print("error in plotting users")
             
@@ -192,18 +197,18 @@ class GameMechVC: UIViewController, MKMapViewDelegate {
     // MARK: - Game Began Function
     
     @objc func gameInfoFunc(notification: NSNotification) {
-            if let filebrought = notification.userInfo?["gameInfo"] as? GameCreator {
+        if let filebrought = notification.userInfo?["gameInfo"] as? GameCreator {
             
-                let location = CLLocationCoordinate2D(latitude: Double(filebrought.gfence.lat), longitude: Double(filebrought.gfence.long))
-                let boundaries = MKCoordinateSpan(latitudeDelta: Double(filebrought.gfence.bound[0]), longitudeDelta: Double(filebrought.gfence.bound[1]))
-                
-                gameBegan(location: location, boundaries: boundaries, radius: Double(filebrought.gfence.rad), time: Double(filebrought.time), playerCount: Double(filebrought.numPlayers))
-                
-                
-            } else {
-                
-                print("error getting game starting data")
-            }
+            let location = CLLocationCoordinate2D(latitude: Double(filebrought.lat), longitude: Double(filebrought.long))
+            let boundaries = MKCoordinateSpan(latitudeDelta: Double(filebrought.bound[0]), longitudeDelta: Double(filebrought.bound[1]))
+            
+            gameBegan(location: location, boundaries: boundaries, radius: Double(filebrought.rad), time: Double(filebrought.time), playerCount: Double(filebrought.numPlayers))
+            
+            
+        } else {
+            
+            print("error getting game starting data")
+        }
         
         
     }
@@ -244,10 +249,10 @@ class GameMechVC: UIViewController, MKMapViewDelegate {
                 print("left the region!")
                 DispatchQueue.main.async {
                     self.playerLoss()
-            // SEND MESSAGE TO SERVER
-            // REMOVE FROM GAME
+                    // SEND MESSAGE TO SERVER
+                    // REMOVE FROM GAME
                 }
-                    
+                
             default:
                 break
                 
@@ -276,7 +281,7 @@ class GameMechVC: UIViewController, MKMapViewDelegate {
                 backViewBigLabel.text = "Uh Oh!"
                 backViewSecondLabel.text = "Your attempt was unsuccessful."
             default:
-               break
+                break
             }
             
             backView.alpha = 1
@@ -368,8 +373,8 @@ class GameMechVC: UIViewController, MKMapViewDelegate {
     
     func playerLoss() {
         // TELLS THEM THEY LOST, THEIR PLACE, TIME, KILLS
-      
- //       delegate?.gameEnded(players, timeString(time: seconds), kills)
+        
+        //       delegate?.gameEnded(players, timeString(time: seconds), kills)
         dismiss(animated: true)
         
         

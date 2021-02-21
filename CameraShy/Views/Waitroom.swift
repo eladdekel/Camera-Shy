@@ -20,7 +20,7 @@ struct Waitroom: View {
             NavigationLink(destination: UsualMainView(), isActive: $pushBack) {
                 EmptyView()
             }
-         
+            
             
             VStack {
                 Text("Invite Your Friends")
@@ -40,7 +40,7 @@ struct Waitroom: View {
                         Text(code)
                             .font(.system(size: 20, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
-
+                        
                     }
                     .padding(.horizontal, 30)
                     .padding(.vertical, 16)
@@ -49,8 +49,8 @@ struct Waitroom: View {
                 .clipShape(Capsule())
                 .padding(.top, 20)
                 .padding(.bottom, 50)
-
-                                
+                
+                
             }
             .padding(.top, 50)
             VStack {
@@ -58,7 +58,7 @@ struct Waitroom: View {
                     Text("1/5 people in room")
                         .font(.system(size: 20, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
-
+                    
                 }
                 .padding(.horizontal, 30)
                 .padding(.vertical, 16)
@@ -75,13 +75,13 @@ struct Waitroom: View {
                             .resizable()
                             .frame(width: 20, height: 20)
                             .foregroundColor(.white)
-                            
+                        
                         
                         Text("Start Game")
                             .font(.system(size: 20, weight: .bold, design: .rounded))
-
+                            
                             .foregroundColor(.white)
-
+                        
                     }
                     .padding(.horizontal, 40)
                     .padding(.vertical, 16)
@@ -102,13 +102,13 @@ struct Waitroom: View {
                             .resizable()
                             .frame(width: 18, height: 20)
                             .foregroundColor(.white)
-                            
+                        
                         
                         Text("Cancel Game")
                             .font(.system(size: 20, weight: .bold, design: .rounded))
-
+                            
                             .foregroundColor(.white)
-
+                        
                     }
                     .padding(.horizontal, 30)
                     .padding(.vertical, 16)
@@ -121,10 +121,10 @@ struct Waitroom: View {
             }
             else {
                 Button(action: {
-                 //   self.presentationMode.wrappedValue.dismiss()
+                    //   self.presentationMode.wrappedValue.dismiss()
                     call.onPlayerLeave()
                     NotificationCenter.default.post(name: NSNotification.Name("leaveGameWait"), object: nil)
-
+                    
                     
                 }){
                     HStack {
@@ -132,13 +132,13 @@ struct Waitroom: View {
                             .resizable()
                             .frame(width: 18, height: 20)
                             .foregroundColor(.white)
-                            
+                        
                         
                         Text("Leave Game")
                             .font(.system(size: 20, weight: .bold, design: .rounded))
-
+                            
                             .foregroundColor(.white)
-
+                        
                     }
                     .padding(.horizontal, 30)
                     .padding(.vertical, 16)
@@ -148,7 +148,7 @@ struct Waitroom: View {
                 .clipShape(Capsule())
                 .padding(.bottom, 20)
                 .buttonStyle(ScaleButtonStyle())
-            
+                
             }
             
         }
@@ -157,8 +157,8 @@ struct Waitroom: View {
         .navigationBarBackButtonHidden(true)
     }
     
-
-
+    
+    
 }
 
 

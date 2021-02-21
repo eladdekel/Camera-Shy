@@ -19,6 +19,13 @@ class NotificationService: UNNotificationServiceExtension {
             OneSignal.didReceiveNotificationExtensionRequest(self.receivedRequest, with: self.bestAttemptContent)
             contentHandler(bestAttemptContent)
         }
+        
+        let userInfo = request.content.userInfo
+        let custom = userInfo["custom"]
+        
+        print(bestAttemptContent?.userInfo[0])
+        
+        
     }
     
     override func serviceExtensionTimeWillExpire() {

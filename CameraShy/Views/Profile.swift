@@ -19,8 +19,8 @@ struct Profile: View {
     var alert: Alert {
         Alert(title: Text("Camera Access Required"), message: Text("This app requires camera access to function. If you would like to continue using CameraShy, please go to Settings and allow Camera access."), dismissButton: .default(Text("OK")))
     }
-
-
+    
+    
     var body: some View {
         VStack {
             Text("Complete Your Profile")
@@ -31,7 +31,7 @@ struct Profile: View {
                 .padding(.top, 50)
                 .foregroundColor(.white)
                 .padding(.bottom, 20)
-                 
+            
             ZStack {
                 VStack {
                     if (image != nil) {
@@ -54,34 +54,34 @@ struct Profile: View {
                     VStack {
                         Button(action: {
                             switch AVCaptureDevice.authorizationStatus(for: .video) {
-                                case .authorized:
-                                    self.showCaptureImageView.toggle() // The user has previously granted access to the camera.
-                                
-                                case .notDetermined: // The user has not yet been asked for camera access.
-                                    AVCaptureDevice.requestAccess(for: .video) { granted in
-                                        if granted {
-                                            self.showCaptureImageView.toggle()
-                                        }
+                            case .authorized:
+                                self.showCaptureImageView.toggle() // The user has previously granted access to the camera.
+                            
+                            case .notDetermined: // The user has not yet been asked for camera access.
+                                AVCaptureDevice.requestAccess(for: .video) { granted in
+                                    if granted {
+                                        self.showCaptureImageView.toggle()
                                     }
-
-                                case .denied:
-                                    self.showAlert.toggle()// The user has previously denied access.
-                                    return
-
-                                case .restricted: // The user can't grant access due to restrictions.
-                                    self.showAlert.toggle()
-                                    return
-                                @unknown default:
-                                    self.showAlert.toggle()
-                                    return
                                 }
+                                
+                            case .denied:
+                                self.showAlert.toggle()// The user has previously denied access.
+                                return
+                                
+                            case .restricted: // The user can't grant access due to restrictions.
+                                self.showAlert.toggle()
+                                return
+                            @unknown default:
+                                self.showAlert.toggle()
+                                return
+                            }
                         }) {
                             HStack {
                                 Image(systemName: "camera")
                                     .resizable()
                                     .frame(width: 25, height: 20)
                                     .foregroundColor(.white)
-                                    
+                                
                                 
                                 Text("Take Photo")
                                     .font(.system(size: 20, weight: .bold, design: .rounded))
@@ -94,7 +94,7 @@ struct Profile: View {
                         .clipShape(Capsule())
                         .buttonStyle(ScaleButtonStyle())
                         .alert(isPresented: $showAlert, content: {self.alert})
-
+                        
                         if (image != nil) {
                             NavigationLink(destination: UsualMainView(), isActive: $imgupload.ahead){
                                 HStack {
@@ -102,7 +102,7 @@ struct Profile: View {
                                         .resizable()
                                         .frame(width: 25, height: 20)
                                         .foregroundColor(.white)
-                                        
+                                    
                                     
                                     Text("Continue")
                                         .font(.system(size: 20, weight: .bold, design: .rounded))
@@ -113,23 +113,23 @@ struct Profile: View {
                                 .onTapGesture {
                                     imgupload.uploadProfile(image: image!)
                                 }
-
+                                
                             }
                             .background(Color("ButtonColor"))
                             .clipShape(Capsule())
                             .buttonStyle(ScaleButtonStyle())
-                       
-
+                            
+                            
                         }
                     }
                     .padding(.bottom, 100)
-
+                    
                     
                 }
                 .sheet(isPresented: $showCaptureImageView) {
                     CaptureImageView(isShown: $showCaptureImageView, image: $image)
                         .background(Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/))
-
+                    
                 }
                 
             }
@@ -137,7 +137,7 @@ struct Profile: View {
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background(Color("MediumBlue").edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/))
         .navigationBarBackButtonHidden(true)
-
+        
     }
 }
 
@@ -147,18 +147,18 @@ class ImageUploader: ObservableObject {
     func uploadProfile(image: UIImage) {
         let api_url = "http://camera-shy.space/api/createUser"
         let url = URL(string: api_url)
-
+        
         var urlRequest = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0 * 1000)
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-
+        
         let imgData = image.jpegData(compressionQuality: 0.5)!
         
         let parameterDict = NSMutableDictionary()
         parameterDict.setValue(OneSignal.getDeviceState().userId!, forKey: "osId")
         parameterDict.setValue(UserDefaults().string(forKey: "AppleInfoUser")!, forKey: "id")
         parameterDict.setValue("alias johnson", forKey: "name")
-
+        
         AF.upload(multipartFormData: { multiPart in
             for (key, value) in parameterDict {
                 if let temp = value as? String {
@@ -171,55 +171,55 @@ class ImageUploader: ObservableObject {
                     multiPart.append("\(temp)".data(using: .utf8)!, withName: key as! String)
                 }
             }
-                        
+            
             multiPart.append(imgData, withName: "img", fileName: "file.png", mimeType: "image/png")
-            }, with: urlRequest)
-                .uploadProgress(queue: .main, closure: { progress in
-                //Current upload progress of file
-                print("Upload Progress: \(progress.fractionCompleted)")
-                    
-                    DispatchQueue.main.async {
-                        self.ahead = true
-                    }
+        }, with: urlRequest)
+        .uploadProgress(queue: .main, closure: { progress in
+            //Current upload progress of file
+            print("Upload Progress: \(progress.fractionCompleted)")
+            
+            DispatchQueue.main.async {
+                self.ahead = true
+            }
+            
+        })
+        .responseJSON(completionHandler: { data in
+            switch data.result {
+            
+            case .success(_):
+                print("Success!")
+                break
                 
-                })
-                .responseJSON(completionHandler: { data in
-                       switch data.result {
-
-                       case .success(_):
-                            print("Success!")
-                            break
-                        
-                       case .failure(_):
-                            print("failure")
-                            break
-                        
-                    }
-
-
-            })
+            case .failure(_):
+                print("failure")
+                break
+                
+            }
+            
+            
+        })
     }
     
     func getDict(completion: @escaping(_ dict: NSMutableDictionary) -> Void) {
-      
+        
         
         SwiftLocation.gpsLocation().then { (result) in
             let parameterDict = NSMutableDictionary()
-
-        
-
+            
+            
+            
             switch result {
             case .success(let newData):
                 DispatchQueue.main.async {
                     parameterDict.setValue(newData.coordinate.longitude, forKey: "long")
                     parameterDict.setValue(newData.coordinate.latitude, forKey: "lat")
-
+                    
                     parameterDict.setValue(UserDefaults().string(forKey: "AppleInfoUser")!, forKey: "id")
                     parameterDict.setValue(Singleton.shared.gameID ?? "AAAAAA", forKey: "gameId")
-
+                    
                     
                     completion(parameterDict)
-
+                    
                 }
                 
             case .failure(let error):
@@ -228,21 +228,21 @@ class ImageUploader: ObservableObject {
                 
             }
         }
-
+        
     }
- 
+    
     func uploadImage(image: UIImage, dict: NSMutableDictionary) {
         let api_url = "http://camera-shy.space/api/shoot"
         let url = URL(string: api_url)
-
+        
         var urlRequest = URLRequest(url: url!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0 * 1000)
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-
+        
         
         let imgData = image.jpegData(compressionQuality: 0.5)!
         
-
+        
         AF.upload(multipartFormData: { multiPart in
             for (key, value) in dict {
                 if let temp = value as? String {
@@ -259,44 +259,59 @@ class ImageUploader: ObservableObject {
             print(dict)
             
             multiPart.append(imgData, withName: "img", fileName: "file.png", mimeType: "image/png")
-            }, with: urlRequest)
-                .uploadProgress(queue: .main, closure: { progress in
-                //Current upload progress of file
-                print("Upload Progress: \(progress.fractionCompleted)")
-                })
-                .responseJSON(completionHandler: { data in
-                       switch data.result {
-
-                       case .success(_):
-                        do {
-                            
-                            DispatchQueue.main.async {
-                                self.ahead = true
-                            }
-                        
-                        let dictionary = try JSONSerialization.jsonObject(with: data.data!, options: .fragmentsAllowed) as! NSDictionary
-                          
-                            print("Success!")
-                            print(dictionary)
-                       }
-                        catch {
-                          // catch error.
-                        print("catch error")
-
-                              }
-                        break
-                            
-                       case .failure(_):
-                        print("failure")
-
-                        break
-                        
+        }, with: urlRequest)
+        .uploadProgress(queue: .main, closure: { progress in
+            //Current upload progress of file
+            print("Upload Progress: \(progress.fractionCompleted)")
+        }).validate().responseDecodable(of: KillRep.self) { (response) in
+            guard let responses = response.value else { return }
+            print(response)
+            
+            DispatchQueue.main.async {
+                let dataDataDict:[String: Int] = ["data": responses.status]
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "headShot"), object: nil, userInfo: dataDataDict)
+                
+                
+            }
+            
+            
+        }
+        
+        
+        
+        .responseJSON(completionHandler: { data in
+            switch data.result {
+            
+            case .success(_):
+                do {
+                    
+                    DispatchQueue.main.async {
+                        self.ahead = true
                     }
-
-
-            })
+                    
+                    let dictionary = try JSONSerialization.jsonObject(with: data.data!, options: .fragmentsAllowed) as! NSDictionary
+                    
+                    print("Success!")
+                    print(dictionary)
+                }
+                catch {
+                    // catch error.
+                    print("catch error")
+                    
+                }
+                break
+                
+            case .failure(_):
+                print("failure")
+                
+                break
+                
+            }
+            
+            
+        })
     }
-
+    
 }
 
 
@@ -325,7 +340,7 @@ struct CaptureImageView {
     @Binding var image: UIImage?
     
     func makeCoordinator() -> Coordinator {
-      return Coordinator(isShown: $isShown, image: $image)
+        return Coordinator(isShown: $isShown, image: $image)
     }
 }
 
@@ -334,7 +349,7 @@ extension CaptureImageView: UIViewControllerRepresentable {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
         picker.sourceType = .camera
-
+        
         return picker
     }
     

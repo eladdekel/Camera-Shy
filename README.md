@@ -1,4 +1,4 @@
-### CameraShy - The World is Your Playground
+# CameraShy - The World is Your Playground
 Turn the world into your playground with CameraShy. A free-for-all tag game where the objective is to find your friends throughout the designated area and snap their picture to eliminate them.
 
 ## Inspiration

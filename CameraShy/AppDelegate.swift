@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // OneSignal initialization
         OneSignal.initWithLaunchOptions(launchOptions)
+       
         
         
         

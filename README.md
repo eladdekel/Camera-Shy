@@ -10,22 +10,22 @@ CameraShy is a free-for-all game, where the objective of the player is to travel
 ## How we built it
 CameraShy is separated into two main portions - the application itself, and the backend database.
 
-###**Application**
+### **Application**
 We used both the Swift language, and SwiftUI language in building the application frontend. This includes all UI and UX. The application handles the creation of games, joining of games, taking of pictures, location handling, notification receiving, and any other data being sent to it or that needs to be sent to the backend. To authenticate users and ensure privacy, we utilized Apple's _Sign in With Apple_ , which anonymizes the users' information, only giving us an email, which may be masked by Apple based on the User's choice.
 
-###**Server**
+### **Server**
 We used MongoDB for our backend. With it, we centralized our ongoing games, sent updates on player locations, arena location, arena boundary, time left, players list, and much more. When a user creates an account, their image is stored on the database with a unique identifier. During a game, when an image of a player is uploaded it is quickly put through Azure's Facial Recognition API, using the previously uploaded player images as reference to identify who was in the shot, if anyone was. We are proud to say that this also works with mask wearers. Finally, the server sends notifications to devices based on if they won/lost/left the arena and forfeited the game.
 
 ## Challenges we ran into
 Taking on a decently sized project like this, we were bound to run into challenges (especially with 3/4 of us being first-time Hackers!). Here are a few of the challenges we ran into:
 
-###1. HTTPS Confirmation
+### 1. HTTPS Confirmation
 We had issues with our database which set us a few hours back, but we found a way around it all pitched in (frontend devs as well) to figure out a solution as to why our database would not register with an HTTPS certificate.
 
-###2. Different Swift Languages
+### 2. Different Swift Languages
 While both Swift and SwiftUI are unique languages written by Apple, for Apple devices, they are very different in nature. Swift relies on Storyboarding and is mostly imperative, whereas SwiftUI utilizes a different approach, and is declarative. With one front-end developer utilizing Swift, and the other SwiftUI, it was difficult to merge Views and connect features properly, but together we learnt a bit of the others' language in the process.
 
-###3. Facial Recognition with Masks
+### 3. Facial Recognition with Masks
 As anyone with a device that utilizes Facial Identification might know, Facial Recognition with a mask on can be difficult. We underwent numerous tests to figure out if it was even possible to utilize facial recognition with a mask, and figured out workarounds in order to do so properly.
 
 ## Accomplishments that we're proud of
